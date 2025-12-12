@@ -18,7 +18,11 @@ class Controller:
 
 
     def handleCercaRaggiungibili(self,e):
-        pass
+        idStazPartenza = int(self._view._ddStazPartenza.value)
+        idStazArrivo = int(self._view._ddStazArrivo.value)
+        print(f"{idStazPartenza} - {idStazArrivo}")
+        result = self._model.getRaggiungibili(idStazPartenza,idStazArrivo)
+        print(result)
 
     def populate_dropdown(self,dd):
         self._model.getAllFermate()

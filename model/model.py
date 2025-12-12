@@ -9,6 +9,11 @@ class Model:
         self._dizionario_fermate = {}
         self._grafo = None
 
+    def getRaggiungibili(self, idStazPartenza, idStazArrivo):
+        fermataPartenza = self._dizionario_fermate[idStazPartenza]
+        fermataArrivo = self._dizionario_fermate[idStazArrivo]
+
+
     def getAllFermate(self):
         fermate = DAO.readAllFermate()
         self._lista_fermate = fermate
@@ -75,7 +80,7 @@ class Model:
             v_nodo = self._dizionario_fermate[c.id_stazA]
             punto_u = (u_nodo.coordX, u_nodo.coordY)
             punto_v = (v_nodo.coordX, v_nodo.coordY)
-            distanza = geodesic(punto_u, punto_v).km
+            distanza = geodesic(punto_u, punto_v).km #calcola la distanza in km tra le due coordinate
             velocita = DAO.readVelocita(c._id_linea)
             print(f"Distanza: {distanza}, velocità: {velocita}")
             tempo_perc = distanza / velocita * 60 # Tempo percorrenza in min.
