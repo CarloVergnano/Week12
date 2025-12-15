@@ -12,17 +12,40 @@ class Controller:
 
         self._view.lst_result.controls.clear()
         self._view.lst_result.controls.append(ft.Text(f"{self._model._grafo}"))
-        for edge in self._model._grafo.edges:
-            self._view.lst_result.controls.append(ft.Text(f"{edge}"))
+        for u, v, data in self._model._grafo.edges(data = True):
+            tempo_perc = data["tempo"]
+            self._view.lst_result.controls.append(ft.Text(f"{u}--> {v}"))
+        self._view.update_page()
+
+        self._view._btnCalcola.disabled = False #cosi da qua posso riutilizzarlo
         self._view.update_page()
 
 
-    def handleCercaRaggiungibili(self,e):
+    def handlePercorsoMinimo(self, e):
         idStazPartenza = int(self._view._ddStazPartenza.value)
         idStazArrivo = int(self._view._ddStazArrivo.value)
         print(f"{idStazPartenza} - {idStazArrivo}")
-        result = self._model.getRaggiungibili(idStazPartenza,idStazArrivo)
-        print(result)
+        self._view.lst_result.controls.clear()
+        self._view.lst_result.controls.append(
+            ft.Text(f"Percorso minimo: {self._model._dizionario_fermate[idStazPartenza]} -> {self._model._dizionario_fermate[idStazArrivo]}"))
+        costo, percorso = self._model.getPercorsoMinimo(idStazPartenza, idStazArrivo)
+        for fermata in percorso:
+            self._view.lst_result.controls.append(ft.Text(f"{fermata}"))
+
+        self._view.lst_result.controls.append(ft.Text(f"{costo:.2f} minuti"))
+        self._view.update_page()
+
+    def handleCercaRaggiungibili(self, e):
+        idStazPartenza = int(self._view._ddStazPartenza.value)
+        print(f"{idStazPartenza}")
+        ris = self._model.getRaggiungibili(idStazPartenza)
+
+        self._view.lst_result.controls.clear()
+        self._view.lst_result.controls.append(
+            ft.Text(f"Fermate raggiungibili da {self._model._dizionario_fermate[idStazPartenza]}"))
+        for v in ris:
+            self._view.lst_result.controls.append(ft.Text(f"{v}"))
+        self._view.update_page()
 
     def populate_dropdown(self,dd):
         self._model.getAllFermate()

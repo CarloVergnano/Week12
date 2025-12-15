@@ -22,6 +22,7 @@ class View():
         self._ddStazPartenza = None
         self._btnCrea = None
 
+
     def load_interface(self):
         # title
         self._title = ft.Text("Metro Paris", color="green", size=24)
@@ -40,16 +41,18 @@ class View():
         self._btnCrea = ft.ElevatedButton(text="Crea Grafo", on_click=self._controller.handleCreaGrafo)
         self._ddStazPartenza = ft.Dropdown(label="Stazione di Partenza", width=250 )
         self._ddStazArrivo = ft.Dropdown(label="Stazione di Arrivo", width=250)
-        self._btnCalcola = ft.ElevatedButton(text="Calcola Raggiungibili", on_click=self._controller.handleCercaRaggiungibili)
+        self._btnCalcola = ft.ElevatedButton(text="Calcola Raggiungibili", disabled = True, on_click=self._controller.handleCercaRaggiungibili)
 
         self._controller.populate_dropdown(self._ddStazPartenza)
         self._controller.populate_dropdown(self._ddStazArrivo)
+        self._btnPercorsoMinimo = ft.ElevatedButton(text="Percorso Minimo", on_click=self._controller.handlePercorsoMinimo)
 
 
         row2 = ft.Row([self._btnCrea,
                        self._ddStazPartenza,
                        self._ddStazArrivo,
                        self._btnCalcola,
+                       self._btnPercorsoMinimo,
                        ], alignment=ft.MainAxisAlignment.CENTER, spacing=30)
 
         # Row with listview
